@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">JessieStam-pset5</string>
+    <string name="app_title">My TBR Jar</string>
+    <string name="search_book_information">Search book, isbn or author</string>
+</resources>
