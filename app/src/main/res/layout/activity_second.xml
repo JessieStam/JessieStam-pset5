@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -32,52 +31,27 @@
             android:id="@+id/app_title"
             android:layout_gravity="center_horizontal" />
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"></FrameLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/app_info"
-            android:textSize="23sp"
+            android:text="@string/result_description"
+            android:id="@+id/result_description"
+            android:textSize="20sp"
             android:padding="10dp"
-            android:id="@+id/textView"
             android:layout_gravity="center_horizontal" />
 
-        <LinearLayout
-            android:orientation="horizontal"
+        <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/result_list"
             android:padding="10dp"
-            android:layout_gravity="center_horizontal" >
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/search_author"
-                android:hint="@string/search_author_information" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:layout_gravity="center_horizontal">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/search_book"
-                android:hint="@string/search_book_information"/>
-
-        </LinearLayout>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/search_button"
-            android:id="@+id/search_button"
-            android:layout_gravity="center_horizontal"
-            android:onClick="get_data"/>
+            android:layout_gravity="center_horizontal" />
 
     </LinearLayout>
 </RelativeLayout>

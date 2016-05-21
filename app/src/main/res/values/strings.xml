@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">JessieStam-pset5</string>
-    <string name="app_title">My TBR Jar</string>
-    <string name="search_book_information">Search book, isbn or author</string>
+    <string name="app_title">Onlinebrary</string>
+    <string name="search_book_information">Look for book</string>
+    <string name="search_author_information">Look for author</string>
+    <string name="search_button">Look through library</string>
+    <string name="app_info">Search for book or author you want to get more information on!</string>
+    <string name="result_description">These are the results for your search for this book by this writer.</string>
 </resources>
