@@ -13,8 +13,7 @@ import org.xmlpull.v1.XmlPullParser;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
-import TrackData.TrackData;
-import jstam.jessiestam_pset5.MainActivity;
+import jstam.jessiestam_pset5.SecondActivity;
 
 /**
  * Created by Jessie on 20/05/2016.
