@@ -32,15 +32,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void get_data(View view) {
 
-        // make asynctask get the data
-        TagAsyncTask asyncTask = new TagAsyncTask(this);
-        asyncTask.execute(author, title);
-
         // move to SecondActivity
         Intent getInfo = new Intent(this, SecondActivity.class);
 
         getInfo.putExtra("author", author);
         getInfo.putExtra("title", title);
+
+        author_input.getText().clear();
+        title_input.getText().clear();
 
         startActivity(getInfo);
     }

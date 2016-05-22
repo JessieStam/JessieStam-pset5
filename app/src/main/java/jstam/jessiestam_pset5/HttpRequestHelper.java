@@ -1,11 +1,17 @@
 package jstam.jessiestam_pset5;
 
+import android.util.Xml;
+
+import org.xml.sax.XMLReader;
+
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Connection;
 
 /**
  * Created by Jessie on 20/05/2016.
@@ -17,14 +23,14 @@ public class HttpRequestHelper {
 
     // string for URL(hier komt de zoekopdracht achter)
 
-    private static final String url1 = "https://www.goodreads.com/book/title.json?author=";
+    private static final String url1 = "https://www.goodreads.com/book/title.xml?author=";
     private static final String url2 = "&key=ZZh7kngcTINCg4tjAG0GDQ&title=";
 
     // method to download from server
     protected static synchronized String downloadFromServer(String... params) {
 
         // declare return string result
-        String result = "''";
+        String result = "";
 
         // get chosen tag from argument
         String author = params[0];
@@ -73,6 +79,8 @@ public class HttpRequestHelper {
         }
 
         // return result
+
+        // niet result maar input stream returnen.
         return result;
     }
 }

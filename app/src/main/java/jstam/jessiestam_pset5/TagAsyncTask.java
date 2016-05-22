@@ -12,6 +12,7 @@ import org.xmlpull.v1.XmlPullParser;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.List;
 
 import jstam.jessiestam_pset5.SecondActivity;
 
@@ -21,23 +22,20 @@ import jstam.jessiestam_pset5.SecondActivity;
 public class TagAsyncTask extends AsyncTask<String, Integer, String> {
 
     Context context;
-    MainActivity activity;
     SecondActivity activity_second;
 
-   // XmlPullParser parser = Xml.newPullParser();
+    XmlPullParser book_parser = Xml.newPullParser();
 
     // constructor
-    public TagAsyncTask(MainActivity activity) {
-        this.activity = activity;
-        this.context = this.activity.getApplicationContext();
+    public TagAsyncTask(SecondActivity activity_second) {
+        this.activity_second = activity_second;
+        this.context = this.activity_second.getApplicationContext();
     }
-
 
     @Override
     protected void onPreExecute() {
         // inform user
         Toast.makeText(context, "Getting data from server", Toast.LENGTH_SHORT).show();
-
     }
 
     @Override
@@ -56,9 +54,19 @@ public class TagAsyncTask extends AsyncTask<String, Integer, String> {
         }
         // else parse json
         else {
-            ArrayList<TrackData> track_data = new ArrayList<>();
+            ArrayList<TrackData> book_data_list = new ArrayList<>();
+
+            Toast.makeText(context, "Data was found", Toast.LENGTH_SHORT).show();
+
             try {
+                // make new parser
                 JSONObject response_object = new JSONObject(result);
+
+                //book_parser.setInput(stream, null);
+
+
+
+
                 JSONObject book_title_object = response_object.getJSONObject("book");
                 JSONArray titles = book_title_object.getJSONArray("title");
                 // JSONArray description = book_title_object.getJSONArray("description");
@@ -70,14 +78,14 @@ public class TagAsyncTask extends AsyncTask<String, Integer, String> {
                     JSONObject author = authors.getJSONObject(i);
                     String author_name = author.getString("name");
 
-                    track_data.add(new TrackData(title_name, author_name));
+                    book_data_list.add(new TrackData(title_name, author_name));
                 }
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            this.activity_second.setData(track_data);
+            this.activity_second.setData(book_data_list);
         }
     }
 }

@@ -26,14 +26,21 @@ public class SecondActivity extends MainActivity {
         title = extraInfo.getString("title");
         result_list = (ListView) findViewById(R.id.result_list);
 
+        // make asynctask get the data
+        TagAsyncTask asyncTask = new TagAsyncTask(this);
+        asyncTask.execute(author, title);
+
         // print hier nog je tekstje voor boven de resultaten
     }
 
     // set data - called from async when ready?
-    public void setData(ArrayList<TrackData> track_data) {
+    public void setData(ArrayList<TrackData> book_data_list) {
 
-        BookAdapter adapter = new BookAdapter(this, track_data);
+        BookAdapter adapter = new BookAdapter(this, book_data_list);
         result_list.setAdapter(adapter);
+
+        // print data to the screen?
+        adapter.notifyDataSetChanged();
     }
 
 }
