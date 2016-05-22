@@ -7,7 +7,11 @@ import java.util.ArrayList;
 
 
 /**
- * Created by Jessie on 21/05/2016.
+ * SecondActivity.java
+ *
+ * Jessie Stam
+ *
+ * This activity gets the data from the Goodreads site and puts it into the listview.
  */
 public class SecondActivity extends MainActivity {
 
@@ -20,26 +24,26 @@ public class SecondActivity extends MainActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
 
+        // get extras from MainActivity
         Bundle extraInfo = getIntent().getExtras();
 
         author = extraInfo.getString("author");
         title = extraInfo.getString("title");
         result_list = (ListView) findViewById(R.id.result_list);
 
-        // make asynctask get the data
+        // make TagAsyncTask get the data
         TagAsyncTask asyncTask = new TagAsyncTask(this);
         asyncTask.execute(author, title);
-
-        // print hier nog je tekstje voor boven de resultaten
     }
 
-    // set data - called from async when ready?
+    /*
+     * Set data, is called from TagAsyncTask when done getting data
+     */
     public void setData(ArrayList<TrackData> book_data_list) {
 
+        // create a new adapter and fill in the listview
         BookAdapter adapter = new BookAdapter(this, book_data_list);
         result_list.setAdapter(adapter);
-
-        // print data to the screen?
         adapter.notifyDataSetChanged();
     }
 

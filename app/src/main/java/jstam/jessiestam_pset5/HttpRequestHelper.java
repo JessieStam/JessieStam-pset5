@@ -8,18 +8,23 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * Created by Jessie on 20/05/2016.
+ * HttpRequestHelper.java
+ *
+ * Jessie Stam
+ *
+ * This activity forms the URL that is used to get the data and connects to the internet.
  */
 public class HttpRequestHelper {
 
-    // developer key
     //static String develop_key = "ZZh7kngcTINCg4tjAG0GDQ";
 
-    // string for URL
+    // strings for URL
     private static final String url1 = "https://www.goodreads.com/book/title.json?author=";
     private static final String url2 = "&key=ZZh7kngcTINCg4tjAG0GDQ&title=";
 
-    // method to download from server
+    /*
+     * Downloads the information from the server and puts it into a string object.
+     */
     protected static synchronized String downloadFromServer(String... params) {
 
         // declare return string result
@@ -61,17 +66,16 @@ public class HttpRequestHelper {
                         result = result + line;
                     }
                 }
+                // when error occures, read errorstream
                 else {
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-                    // communicate error
                 }
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        // return result
+        // return the result string
         return result;
     }
 }
