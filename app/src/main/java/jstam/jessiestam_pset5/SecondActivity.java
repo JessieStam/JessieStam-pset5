@@ -1,12 +1,10 @@
 package jstam.jessiestam_pset5;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import TrackData.TrackData;
 
 /**
  * Created by Jessie on 21/05/2016.
@@ -34,6 +32,8 @@ public class SecondActivity extends MainActivity {
     // set data - called from async when ready?
     public void setData(ArrayList<TrackData> track_data) {
 
+        BookAdapter adapter = new BookAdapter(this, track_data);
+        result_list.setAdapter(adapter);
     }
 
 }

@@ -31,11 +31,6 @@
             android:id="@+id/app_title"
             android:layout_gravity="center_horizontal" />
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"></FrameLayout>
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,12 +41,24 @@
             android:padding="10dp"
             android:layout_gravity="center_horizontal" />
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/result_list"
-            android:padding="10dp"
-            android:layout_gravity="center_horizontal" />
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="Custom ListView Example" />
+
+            <ListView
+                android:id="@+id/result_list"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 </RelativeLayout>

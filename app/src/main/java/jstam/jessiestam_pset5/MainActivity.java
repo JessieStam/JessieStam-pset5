@@ -1,16 +1,11 @@
 package jstam.jessiestam_pset5;
 
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ListView;
 
-import java.util.ArrayList;
-
-import TrackData.TrackData;
 
 public class MainActivity extends AppCompatActivity {
 

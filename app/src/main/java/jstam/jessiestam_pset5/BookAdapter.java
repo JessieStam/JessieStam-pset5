@@ -15,16 +15,16 @@ import java.util.ArrayList;
 public class BookAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<TrackData> books;
+    private ArrayList<TrackData> books_list;
 
     public BookAdapter (Context context, ArrayList<TrackData> data) {
 
         this.context = context;
-        this.books = data;
+        this.books_list = data;
     }
 
     @Override
-    public int getCount() {return this.books.size();}
+    public int getCount() {return this.books_list.size();}
 
     @Override
     public Object getItem(int arg0) {return null;}
@@ -39,15 +39,11 @@ public class BookAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.row_layout, parent, false);
         }
-        TrackData track = books.get(pos);
-        TextView author = (TextView) view.findViewById(R.id.book_name);
-        TextView title = (TextView) view.findViewById(R.id.author_name);
-        book_name.setText(track.getTitle());
-        author_name.setText(track.getAuthor());
+        TrackData book = books_list.get(pos);
+        TextView author = (TextView) view.findViewById(R.id.title);
+        TextView title = (TextView) view.findViewById(R.id.author);
+        title.setText(book.getTitle());
+        author.setText(book.getAuthor());
         return view;
     }
-
-
-
-
 }
