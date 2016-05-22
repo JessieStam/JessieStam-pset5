@@ -6,15 +6,21 @@ import android.util.Xml;
 import android.widget.Toast;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
 
-import java.net.HttpURLConnection;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import jstam.jessiestam_pset5.SecondActivity;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 
 /**
  * Created by Jessie on 20/05/2016.
@@ -24,7 +30,15 @@ public class TagAsyncTask extends AsyncTask<String, Integer, String> {
     Context context;
     SecondActivity activity_second;
 
-    XmlPullParser book_parser = Xml.newPullParser();
+    // don't use name spaces
+    final String ns = null;
+
+    public static Document loadXMLFromString(String result) throws Exception {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        InputSource input_source = new InputSource(new StringReader(result));
+        return builder.parse(input_source);
+    }
 
     // constructor
     public TagAsyncTask(SecondActivity activity_second) {
@@ -40,16 +54,95 @@ public class TagAsyncTask extends AsyncTask<String, Integer, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        // het result hiervan wordt automatisch doorgegeven aan on post execute
         return HttpRequestHelper.downloadFromServer(params);
     }
 
+    // Parses the contents of an entry. If it encounters a title, summary, or link tag, hands them off
+    // to their respective "read" methods for processing. Otherwise, skips the tag.
+    private TrackData readList(XmlPullParser parser) throws XmlPullParserException, IOException {
+
+        parser.require(XmlPullParser.START_TAG, ns, "book");
+        String title = null;
+        String author = null;
+        while (parser.next() != XmlPullParser.END_TAG) {
+            if (parser.getEventType() != XmlPullParser.START_TAG) {
+                continue;
+            }
+            String name = parser.getName();
+            switch (name) {
+                case "title":
+                    title = readTitle(parser);
+                    break;
+                case "author":
+                    author = readAuthor(parser);
+                    break;
+                default:
+                    skip(parser);
+                    break;
+            }
+        }
+        return new TrackData(title, author);
+    }
+
+    /*
+     * Processes the book titles
+     */
+    private String readTitle(XmlPullParser parser) throws IOException, XmlPullParserException {
+        parser.require(XmlPullParser.START_TAG, ns, "title");
+        String title = readText(parser);
+        parser.require(XmlPullParser.END_TAG, ns, "title");
+        return title;
+    }
+
+    /*
+     * Processes the book authors
+     */
+    private String readAuthor(XmlPullParser parser) throws IOException, XmlPullParserException {
+        parser.require(XmlPullParser.START_TAG, ns, "author");
+        String title = readText(parser);
+        parser.require(XmlPullParser.END_TAG, ns, "author");
+        return title;
+    }
+
+    /*
+     * For the title and author, extracts their text values.
+     */
+    private String readText(XmlPullParser parser) throws IOException, XmlPullParserException {
+        String result_xml = "";
+        if (parser.next() == XmlPullParser.TEXT) {
+            result_xml = parser.getText();
+            parser.nextTag();
+        }
+        return result_xml;
+    }
+
+    /*
+     * Skip tags that are not important for this app
+     */
+    private void skip(XmlPullParser parser) throws XmlPullParserException, IOException {
+        if (parser.getEventType() != XmlPullParser.START_TAG) {
+            throw new IllegalStateException();
+        }
+        int depth = 1;
+        while (depth != 0) {
+            switch (parser.next()) {
+                case XmlPullParser.END_TAG:
+                    depth--;
+                    break;
+                case XmlPullParser.START_TAG:
+                    depth++;
+                    break;
+            }
+        }
+    }
+
+
     @Override
-    protected void onPostExecute(String result) {
-        super.onPostExecute(result);
+    protected void onPostExecute(String readText) {
+        super.onPostExecute(readText);
 
         // if nothing was found, inform user
-        if (result.length() == 0) {
+        if (readText.length() == 0) {
             Toast.makeText(context, "No data was found", Toast.LENGTH_SHORT).show();
         }
         // else parse json
@@ -60,17 +153,12 @@ public class TagAsyncTask extends AsyncTask<String, Integer, String> {
 
             try {
                 // make new parser
-                JSONObject response_object = new JSONObject(result);
-
-                //book_parser.setInput(stream, null);
-
-
-
-
+                JSONObject response_object = new JSONObject(readText);
                 JSONObject book_title_object = response_object.getJSONObject("book");
                 JSONArray titles = book_title_object.getJSONArray("title");
                 // JSONArray description = book_title_object.getJSONArray("description");
                 JSONArray authors = book_title_object.getJSONArray("name");
+
 
                 for (int i = 0; i < titles.length(); i++) {
                     JSONObject title = titles.getJSONObject(i);
@@ -81,7 +169,7 @@ public class TagAsyncTask extends AsyncTask<String, Integer, String> {
                     book_data_list.add(new TrackData(title_name, author_name));
                 }
 
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
