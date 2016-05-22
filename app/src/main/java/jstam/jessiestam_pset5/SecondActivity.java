@@ -36,9 +36,7 @@ public class SecondActivity extends MainActivity {
         asyncTask.execute(author, title);
     }
 
-    /*
-     * Set data, is called from TagAsyncTask when done getting data
-     */
+    // set data, is called from TagAsyncTask when done getting data
     public void setData(ArrayList<TrackData> book_data_list) {
 
         // create a new adapter and fill in the listview

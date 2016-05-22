@@ -41,9 +41,7 @@ public class MainActivity extends AppCompatActivity {
         title = title_input.toString();
     }
 
-    /*
-     * When button is clicked, move to second activity and get the data from the Goodreads website.
-     */
+    // when button is clicked, move to second activity and get the data from the Goodreads website
     public void get_data(View view) {
 
         // move to SecondActivity
